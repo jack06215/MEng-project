@@ -1,0 +1,10 @@
+im = imread('fig1.jpg');
+figure, imshow(im);
+hold on;
+line = imrect;
+my_roi = wait(line);
+position = [my_roi(1),my_roi(1)+my_roi(3),my_roi(1)+my_roi(3),my_roi(1);
+            my_roi(2),my_roi(2),my_roi(2)+my_roi(4),my_roi(2)+my_roi(4)];
+plot(position(1,:), position(2,:), 'Color',[1,0,0], 'LineWidth', 3);
+hold off;
+% [X,Y] = main_test;

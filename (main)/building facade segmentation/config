@@ -1,0 +1,15 @@
+talk 1
+saveFig 0
+scaleimageflag 1
+gapfillflag 1
+extendflag 1
+maxlines 500
+LSDscale 0.8
+athreshgap 2
+dthreshgap 1
+athreshadj 10
+numPairs 4
+highthresh 0.0025
+maxTrials 100
+maxDataTrials 100
+poptype 1
