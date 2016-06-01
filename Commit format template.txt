@@ -1,4 +1,4 @@
-** Update [Date] - [Summary] **
+[Summary]
 # [List]
 # [of]
 # [changes]
