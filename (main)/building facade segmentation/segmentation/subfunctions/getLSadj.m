@@ -15,7 +15,7 @@ end
 
 
 % Method 2
-L = getLines(imgray,30);
+L = getLines(imgray,20);
 L = L(:,1:4)';
 L = [L(1,:); L(3,:); L(2,:); L(4,:)];
 

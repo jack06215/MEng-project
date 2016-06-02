@@ -1,17 +1,26 @@
-%% Intermidiate Testing
-%% -->Extract Inliers
+%% Intermidiate Result Debug
+%% --> Extract Inliers
 inlier1 = inliers{1};
 [ar,ac]=find(inlier1>0);
-
+myFig = [];
+savepath = 'saved\mmexport1458908621320.jpg';
 for i=1:size(ar,1)
-    figure,imshow(im);
+    myFig = [myFig,az_fig];
+    set(myFig(1,end),'Name','Extracted line-pairs');
+    imagesc(im),axis equal;
     hold on;
     plot(LS([1,3],ac(i)), LS([2,4],ac(i)),'color','red','LineWidth',2);
     plot(LS([1,3],ar(i)), LS([2,4],ar(i)),'color','red','LineWidth',2);
+    title(['Inlier #', num2str(i)]);
     hold off;
-    pause(1);
+    
+    name = [savepath '_experiment_' num2str(i) '_' get(myFig(1,i),'Name') '.jpg'];
+    print(myFig(i), '-djpeg', name);
     close;
 end
+% for i = 1:length(myFig)
+%     
+% end
 
 %% --> LSD
 % lines = getLines(rgb2gray(im),40);
