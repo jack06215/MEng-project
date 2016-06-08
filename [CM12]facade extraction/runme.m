@@ -1,6 +1,6 @@
 addpath(genpath('.'));
 ccc;
-img = imread('data/018.jpg');
+img = imread('data/Garfield_Building_Detroit.jpg');
 img_gray = rgb2gray(img);
 % figure,hold on
 % imshow(img);

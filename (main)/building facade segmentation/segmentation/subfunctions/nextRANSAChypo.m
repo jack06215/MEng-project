@@ -5,7 +5,7 @@ function [x,currinliers,x3]=nextRANSAChypo(L,remadj,alladj,K,highthresh,numPairs
 % hypo3: changed to exclude any region processing
 
 [H,currinliers,x]=ransacfitH(L,K,remadj,highthresh,numPairs,poptype,maxTrials,maxDataTrials,talk);
-
+xx = x;
 % [ar,ac] = find(currinliers>0);
 % tmp = [41,42,43,69,72,73];
 % index_tmp = sub2ind(size(currinliers),ar(tmp),ac(tmp));
@@ -16,7 +16,7 @@ function [x,currinliers,x3]=nextRANSAChypo(L,remadj,alladj,K,highthresh,numPairs
 % mat2cell(currinliers,size(currinliers,1),size(currinliers,2));
 
 % EM on inliers and homography
-[tempH,tempx]=rectifyOrthoR(L,K,currinliers,x,0);
+[tempH,tempx]=rectifyOrthoR(L,K,currinliers,xx,0);
 [H3,x3] = rectifyInplaneR(L,K,currinliers,0,tempx,talk);
 tempinliers=findHinliers(tempH,L,highthresh).*alladj;
 while sum(sum(tempinliers))>sum(sum(currinliers))
@@ -27,7 +27,7 @@ while sum(sum(tempinliers))>sum(sum(currinliers))
     x=tempx;
     
     % fit new model and inliers
-    [tempH,tempx]=rectifyOrthoR(L,K,currinliers,x,1);
+    [tempH,tempx]=rectifyOrthoR(L,K,currinliers,xx,1);
     [H3,x3] = rectifyInplaneR(L,K,currinliers,x3(3),tempx,talk);
     tempinliers=findHinliers(tempH,L,highthresh).*alladj;
 end

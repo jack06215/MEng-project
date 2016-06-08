@@ -5,10 +5,10 @@ if ~exist(impath,'file')
     error('Please enter a valid image path');
 end
 %% read camera data
-%imexif=imfinfo(impath);
-imexif=exifread(impath);
-%if isempty(imexif) || ~isfield(imexif.DigitalCamera,'FocalLength') || ~isfield(imexif,'Model')
-if isempty(imexif) || ~isfield(imexif,'FocalLength') || ~isfield(imexif,'Model')
+imexif=imfinfo(impath);
+% imexif=exifread(impath);
+if isempty(imexif) || ~isfield(imexif.DigitalCamera,'FocalLength') || ~isfield(imexif,'Model')
+% if isempty(imexif) || ~isfield(imexif,'FocalLength') || ~isfield(imexif,'Model')
     error('EXIF read failed');
 end
 w=getCameraSensorWidth(strtrim(imexif.Model));
@@ -30,8 +30,8 @@ if scaleimageflag == 1 && max([size(im,1),size(im,2)])>1000
 end
 
 %% define the intrinsic parameters under square pixel assumption
-f=imexif.FocalLength*max(size(im))/w;
-%f=imexif.DigitalCamera.FocalLength*max(size(im))/w;
+% f=imexif.FocalLength*max(size(im))/w;
+f=imexif.DigitalCamera.FocalLength*max(size(im))/w;
 u0=size(im,2)/2; v0=size(im,1)/2;
 K=diag([f,f,1]);
 center = [u0; v0];

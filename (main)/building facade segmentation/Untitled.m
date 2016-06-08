@@ -1,9 +1,9 @@
 %% Intermidiate Result Debug
 %% --> Extract Inliers
-inlier1 = inliers{1};
+inlier1 = inliers{2};
 [ar,ac]=find(inlier1>0);
 myFig = [];
-savepath = 'saved\mmexport1458908621320.jpg';
+savepath = 'captured\mmexport1458908621320.jpg';
 for i=1:size(ar,1)
     myFig = [myFig,az_fig];
     set(myFig(1,end),'Name','Extracted line-pairs');
