@@ -37,7 +37,7 @@ if talk
     hFig=[hFig az_fig];
     set(hFig(1,end),'Name','Original and Gap Filled Lines');
     imagesc(im), axis equal;
-    showLS(L1);
+    %showLS(L1);
     showLS(L,[0,1,0]);
     title('Original in green, Gap-filled in red');
     fprintf(1,'detected lines: %d, after gap-filling: %d\n',size(L,2),size(L1,2));
@@ -48,7 +48,7 @@ end
 L1=sortLS(L1);
 
 % Extract 70% of LS by its length
-maxlines=min([maxlines,floor(0.5*size(L1,2))]);
+maxlines=min([maxlines,floor(0.7*size(L1,2))]);
 L1=L1(:,1:maxlines);
 
 % extend lines
@@ -67,6 +67,6 @@ if talk
     set(hFig(1,end),'Name','Gap Filled and Extended Lines');
     imagesc(im), axis equal;
     showLS(L2);
-    showLS(L1,[0,1,0]);
+    %showLS(L1,[0,1,0]);
     title('Gap filled in green, Extended in red')
 end

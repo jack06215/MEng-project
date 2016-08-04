@@ -2,7 +2,7 @@
 addpath(genpath('.'));
 close all;
 %% Waiting for user input
-im_obj = imread('LLTV2_illustration_logo.jpg');
+im_obj = imread('Alphabet_board_our.jpg');
 im_obj_rect = [1,size(im_obj,2),size(im_obj,2),1;
                 1,1,size(im_obj,1),size(im_obj,1)];
 %% Pre-defined parameters from previous program
@@ -13,7 +13,7 @@ K = [4.771474878444084e+02,0,0;0,4.771474878444084e+02,0;0,0,1];
 % K = [791,0,0;0,791,0;0,0,1];
 % X = [0.150029936810503,0.143176210731948;-0.595200087397920,0.381606944802646;0.131683946642265,-0.090483451186387];
 % X = [0.946461255663448,-0.548922823284659;-0.023890003326811,-5.852889297814638e-04;0.007198255854039,0.008453552961197];
-H_form = computeFrontalH(X3(:,2), center, K, im);
+H_form = computeFrontalH2(1,X3,center, K, im);
 H = H_form.T;
 %% Warping
 im_warp = imwarp(im, H_form);
@@ -36,6 +36,7 @@ while (1)
     hold on;
     line = imrect;
     my_roi = wait(line);
+    my_roi=[302,314,212,116];
     position = [my_roi(1),my_roi(1)+my_roi(3),my_roi(1)+my_roi(3),my_roi(1);
                 my_roi(2),my_roi(2),my_roi(2)+my_roi(4),my_roi(2)+my_roi(4)];
     hold off;

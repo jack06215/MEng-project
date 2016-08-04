@@ -52,32 +52,62 @@ disp('into plane orientation');
 
 %% Find unique region labels
 disp('into getquads')
-[Ladj,rectangles,inds,numRectangles,quads_c,qseg] = getRectangles(Ladj,LS_c,L,x3,inliers,numhyp,K,center);
+% [Ladj,rectangles,inds,numRectangles,quads_c,qseg] = getRectangles(Ladj,LS_c,L,x3,inliers,numhyp,K,center);
+% Extract only a inliers pair (debug code)
+% test = find(qseg==2);
+% rectangles(:,test) = [];
+% qseg(test) = [];
 
-%% compute their hypothesis scores
-fprintf(1,'computing hypotheses scores\n');
-inpercent = getRectanglesHypothesisScore(L,Ladj,rectangles,numRectangles,quads_c,inliers,numhyp);
 
-%% compute their adjacency matrix
-fprintf(1,'computing quadrangle adjacency\n');
-qadj=findOverlapWithSAP(rectangles);
 
-%% conflict removal
-[goodquads2,goodqseg2,goodqadj2,badquads2,badqseg2,goodqadj2vis,goodinds] = removeConflicts(inpercent,rectangles,qadj,qseg,inds);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% 
+% 
+% 
+% 
+% %% compute their hypothesis scores
+% fprintf(1,'computing hypotheses scores\n');
+% inpercent = getRectanglesHypothesisScore(L,Ladj,rectangles,numRectangles,quads_c,inliers,numhyp);
+% 
+% %% compute their adjacency matrix
+% fprintf(1,'computing quadrangle adjacency\n');
+% qadj=findOverlapWithSAP(rectangles);
+% 
+% %% conflict removal
+% [goodquads2,goodqseg2,goodqadj2,badquads2,badqseg2,goodqadj2vis,goodinds] = removeConflicts(inpercent,rectangles,qadj,qseg,inds);
 
 %% visualize results
 % hFig=[];
-if talk
-    hFig=[hFig az_fig];showquads(im,rectangles,qseg,LS,0.1);
-    axis([0,size(im,2),0,size(im,1)]); set(hFig(1,end),'Name','All Rectangles');
-    hFig=[hFig az_fig];showquads(im,goodquads2,goodqseg2,LS,0.1);
-    axis([0,size(im,2),0,size(im,1)]); set(hFig(1,end),'Name','Good Rectangles');
-    hFig=[hFig az_fig];showquads(im,badquads2,badqseg2,LS,0.1);
-    axis([0,size(im,2),0,size(im,1)]); set(hFig(1,end),'Name','Bad Rectangles');
-    hFig=[hFig az_fig]; subplot(1,2,1), imshow(qadj),  subplot(1,2,2), imshow(goodqadj2vis),set(hFig(1,end),'Name','Adjacency Matrices');
-
-    fprintf(1, '\n---\nTotal %d\nGood %d\n\n',size(rectangles,2),size(goodquads2,2));
-end
+% if talk
+%     hFig=[hFig az_fig];showquads(im,rectangles,qseg,LS,0.1);
+%     axis([0,size(im,2),0,size(im,1)]); set(hFig(1,end),'Name','All Rectangles');
+% %     hFig=[hFig az_fig];showquads(im,goodquads2,goodqseg2,LS,0.1);
+% %     axis([0,size(im,2),0,size(im,1)]); set(hFig(1,end),'Name','Good Rectangles');
+% %     hFig=[hFig az_fig];showquads(im,badquads2,badqseg2,LS,0.1);
+% %     axis([0,size(im,2),0,size(im,1)]); set(hFig(1,end),'Name','Bad Rectangles');
+% %     hFig=[hFig az_fig]; subplot(1,2,1), imshow(qadj),  subplot(1,2,2), imshow(goodqadj2vis),set(hFig(1,end),'Name','Adjacency Matrices');
+% % 
+% %     fprintf(1, '\n---\nTotal %d\nGood %d\n\n',size(rectangles,2),size(goodquads2,2));
+% end
 end
 
 

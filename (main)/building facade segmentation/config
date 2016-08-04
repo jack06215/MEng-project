@@ -6,8 +6,8 @@ extendflag 1
 maxlines 500
 LSDscale 0.8
 athreshgap 2
-dthreshgap 1
-athreshadj 10
+dthreshgap 5
+athreshadj 20
 numPairs 2
 highthresh 0.01
 maxTrials 200

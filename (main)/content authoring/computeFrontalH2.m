@@ -1,5 +1,5 @@
-%% Construct homography matrix
-planeID = 2;
+function [ tformm ] = computeFrontalH2(planeID,X3,center,K,im)
+% planeID = 2;
 ax=X3(planeID*3-2);ay=X3(planeID*3-1);az=X3(planeID*3);
 % ax=X(1);ay=X(2);az=0.6;
 % flag1 = ax >= 1 || ax <= -1;
@@ -58,13 +58,6 @@ p1 = T1.T;
 p2 = hfrom_in;
 p1p2 = p1*p2;
 tformm = projective2d(p1p2);
-im_aa = imwarp(im,tformm');
-% figure,imshow(im_aa)
-% inv_tformm=invert(tformm);
-% im_aaa = imwarp(im_aa,inv_tformm');
-% figure,imshow(im_aaa)
 
+end
 
-hFig=[hFig az_fig];
-set(hFig(1,end),'Name','Gap Filled and Extended Lines');
-imagesc(im_aa), axis equal;

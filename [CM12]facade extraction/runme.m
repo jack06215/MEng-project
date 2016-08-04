@@ -1,6 +1,6 @@
 addpath(genpath('.'));
 ccc;
-img = imread('data/Garfield_Building_Detroit.jpg');
+img = imread('data/object0138.view01.png');
 img_gray = rgb2gray(img);
 % figure,hold on
 % imshow(img);
@@ -10,6 +10,7 @@ K = [4.771474878444084e+02,0,0;0,4.771474878444084e+02,0;0,0,1];
 %% Tilt Rectification
 % Line segment detection and clustering based on vanishing point
 [ls,ls_center,ls_label,img_vp] = vp_lineCluster(img_gray,center);
+
 % showTOVP(img,img_gray,img_vp);
 % Keep only vertical line segment
 [ar,~] = find(ls_label ~= 1);
@@ -18,12 +19,7 @@ ls_vertical(:,ar) = [];
 % ls_vertical(:,3) = [];
 ls(:,ar) = [];
 % ls(:,3) = [];
-% figure;
-% imshow(img), hold on;
-% for i=1:size(ls,2)
-%     plot(ls([1,3],i), ls([2,4],i), 'Color', [0,0,1], 'LineWidth', 3);
-% %     pause(1);
-% end
+
 
 % Camera tilt rectification using Levenberg-Marquardt optimisation method
 x = tiltRectification(ls_vertical,K);
@@ -31,8 +27,17 @@ x = tiltRectification(ls_vertical,K);
 % Obtain the result warping image
 [imgp,T] = getPerspectiveImg(img,x,K);
 H = T.T;
-% figure,imshow(imgp);
+%figure,imshow(imgp);
 [ls,ls_center,ls_label,~] = vp_lineCluster(img_gray,center,15);
+figure;
+imshow(img), hold on;
+color = hsv(size(ls,2));
+hexColor = rgb2hex(color);
+for i=1:size(ls,2)
+    plot(ls([1,3],i), ls([2,4],i), 'Color', color(i,:), 'LineWidth', 3);
+%     pause(1);
+end
+hold off;
 %% Build image strips wall (equally divided)
 % Remove all vertical line segments
 [ar,~] = find(ls_label == 1);
@@ -77,7 +82,7 @@ color_hex = rgb2hex(color);
 % end
 
 % Build image wall equally vertical strips
-num_of_div = 6;
+num_of_div = 8;
 num_of_strips = 1 + num_of_div*2;
 imgStripWall = ones(4,num_of_strips+1);
 offset = [size(img,2)/num_of_strips;0;size(img,2)/num_of_strips;0];
@@ -205,15 +210,15 @@ for i=1:size(imgPlane_candidate,2)+1
     imgPlane_candidate{i} = plane_wall;
 end
 
-for i=1:size(imgPlane_candidate,2)
-    tmp2 = imgPlane_candidate{i};
-    figure(2), imshow(img);
-    hold on;
-    for j=1:size(tmp2,2)
-        plot(tmp2([1,3],j), tmp2([2,4],j), 'Color', 'red', 'LineWidth', 1);
-    end
-    hold off;
-end
+% for i=1:size(imgPlane_candidate,2)
+%     tmp2 = imgPlane_candidate{i};
+%     figure(2), imshow(img);
+%     hold on;
+%     for j=1:size(tmp2,2)
+%         plot(tmp2([1,3],j), tmp2([2,4],j), 'Color', 'red', 'LineWidth', 1);
+%     end
+%     hold off;
+% end
 
 
 imgPlane_ls_candidate = cell(size(imgPlane_candidate));

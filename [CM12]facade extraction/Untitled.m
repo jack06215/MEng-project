@@ -3,7 +3,7 @@ close all;
 % Parameters
 K = [4.771474878444084e+02,0,0;0,4.771474878444084e+02,0;0,0,1];
 % img = imread('data/Garfield_Building_Detroit.jpg');
-im_obj = imread('data/lucky_star_hiragana_wall_chart_by_muddy_mudkip.jpg');
+im_obj = imread('data/Alphabet_board_14.jpg');
 im_obj_rect = [1,size(im_obj,2),size(im_obj,2),1;
                 1,1,size(im_obj,1),size(im_obj,1)];
 center = [size(img,2)/2; size(img,1)/2];
@@ -13,9 +13,11 @@ C_center = [1,0, -center(1);
 leftmosst_wall = [1;1;1;size(img,1)];
 rightmost_wall = [size(img,2);1;size(img,2);size(img,1)];
         
-        
-list_A = [174,167,54,84];
-%list_A = [104,113,207,41];
+% list_A = [66,69,8,115];
+list_A = [183,202,32,118];        
+
+% list_A = [174,167,54,84];
+% list_A = [104,113,207,41];
 quad_a = ls(:,list_A(:));
 
 % Sort out line segments
@@ -52,8 +54,10 @@ imshow(img),hold on;
 % quad = [quad(:,2),quad(:,1),quad(:,4),quad(:,3)];
 for i=1:size(list_A,2)
    plot(quad_a([1,3],i), quad_a([2,4],i), 'Color', 'red', 'LineWidth', 2);
-   plot(quad(1,i),quad(2,i),'x','Color','blue','LineWidth',2);
+   plot(quad(1,i),quad(2,i),'x','Color','green','LineWidth',3);
 end
+axis([0,size(img,2),-50,size(img,1)]);
+
 quad = [quad;1,1,1,1];
 % [x,y] = getpts;
 % quad = [x(1),x(2),x(3),x(4); y(1),y(2),y(3),y(4); 1,1,1,1];
@@ -70,11 +74,13 @@ hold off;
 % plot(rect(1,:),rect(2,:),'x','color','red','linewidth',3);
 % 
 % project_rect = [0,h,0,h;0,0,h,h;1,1,1,1];
+rectt = [0,640,0,640;0,0,640,640;1,1,1,1];
+
 Rect_t = [0,size(img,1),0,size(img,1);0,0,size(img,1),size(img,1);1,1,1,1];
 % Rect_t = [Rect_t(:,1),Rect_t(:,3),Rect_t(:,4),Rect_t(:,2)];
+% H = homography2d(quad,rightPlane);
+% H = homography2d(quad,Rect_t);
 H = homography2d(quad,rightPlane);
-%H = homography2d(quad,leftPlane);
-%H = homography2d(quad,rightPlane);
 H_K = inv(K)*H;
 s = norm(H_K(:,1)) / norm(H_K(:,2));
 
@@ -82,7 +88,7 @@ s = norm(H_K(:,1)) / norm(H_K(:,2));
 A_s = [1/s,1,1];
 AA_s = diag(A_s);
 H1 = H * AA_s;
-H1= K*(H1);
+% H1= K*(H1);
 %% Calclating Resultant Translation and Scale
 Rect = [0,0,1; size(img,2),0,1; size(img,2),size(img,1),1; 0,size(img,1),1]';
 Rect_out = homoTrans(H1, Rect);
@@ -123,6 +129,7 @@ while (1)
     hold on;
     line = imrect;
     my_roi = wait(line);
+    my_roi=[199,467,337,184];
     position = [my_roi(1),my_roi(1)+my_roi(3),my_roi(1)+my_roi(3),my_roi(1);
                 my_roi(2),my_roi(2),my_roi(2)+my_roi(4),my_roi(2)+my_roi(4)];
     hold off;

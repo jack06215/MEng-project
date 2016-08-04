@@ -11,6 +11,7 @@ warning off all;                    % Turn off warnings
 %% Main algorithm pipeline starts from here
 tic;
 [im,K,center,LS,LS_c,X,Ladj,hFig,L,inliers,numhyp,X3] = computeSegmentation(impath,talk);
+% [Ladj,rectangles,inds,numRectangles,quads_c,qseg] = getRectangles(Ladj,LS_c,L,X3,inliers,numhyp,K,center);
 
 % [im_new,hFig] = obtainFrontalView(im,K,X3,center,hFig,1);
 toc;

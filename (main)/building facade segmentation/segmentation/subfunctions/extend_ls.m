@@ -68,11 +68,11 @@ for index=1:size(LS,2)
     end
 end
 if talk
-%     display(A);
-%     display(b');
-%     display(x);
-%     display(alpha);
-%     display(beta);
+    display(A);
+    display(b');
+    display(x);
+    display(alpha);
+    display(beta);
 end
 
 % select the line segments with 0<beta<1 (only these intersect the target line)
