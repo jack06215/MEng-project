@@ -158,11 +158,11 @@ function [M, inliers, xp] = ransac4(x,K,A,fittingfn,distfn,degenfn,s,t,poptype, 
                   % use the function RANDOMSAMPLE from my webpage)
                   if poptype==1
                       [ar,ac]=find(A>0);
-                      ind = randsample(length(ar), s);
+                      ind = randomsample(length(ar), s);
                       indr=ar(ind);
                       indc=ac(ind);
                   else
-                      ind = randsample(npts*(npts-1), s);
+                      ind = randomsample(npts*(npts-1), s);
                       [indr,indc] = get2DIndex(npts,ind);
                   end
                   % Test that these points are not a degenerate configuration.

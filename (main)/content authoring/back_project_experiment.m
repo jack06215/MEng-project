@@ -1,56 +1,62 @@
-%% Program Initialisation
+%% Compute frontal-parallel view from 3 rotation parameters
 addpath(genpath('.'));
 close all;
-%% Waiting for user input
+% Waiting for user input
 im_obj = imread('Alphabet_board_our.jpg');
 im_obj_rect = [1,size(im_obj,2),size(im_obj,2),1;
                 1,1,size(im_obj,1),size(im_obj,1)];
-%% Pre-defined parameters from previous program
-% Image center
-center = [size(im,2)/2; size(im,1)/2];
-%% Construct homography matrix
-K = [4.771474878444084e+02,0,0;0,4.771474878444084e+02,0;0,0,1];
-% K = [791,0,0;0,791,0;0,0,1];
-% X = [0.150029936810503,0.143176210731948;-0.595200087397920,0.381606944802646;0.131683946642265,-0.090483451186387];
-% X = [0.946461255663448,-0.548922823284659;-0.023890003326811,-5.852889297814638e-04;0.007198255854039,0.008453552961197];
+% Pre-defined image center and camera intrinsic matrix
+center = [size(im,2)/2; 
+          size(im,1)/2];  % Image center
+K = [477, 0,  0;
+     0,  477,0;
+     0,  0,  1];          % Intrinsic matrix
+% Compute frontal-parallel view homography
 H_form = computeFrontalH2(1,X3,center, K, im);
 H = H_form.T;
-%% Warping
-im_warp = imwarp(im, H_form);
-% im_warp = my_imwarp(im, H');
-%% Look-up table for original-prespective pixel mapping(Scene)
-% Find the size of img
-sz = size(im);
-% Original pixel index lookup table
-[rows,cols]= meshgrid(1:sz(1), 1:sz(2));
-A = [reshape(cols,1,[]);
-     reshape(rows,1,[]);
-     ones(1,length(rows(:)))]; 
-% Perform warping 
-AA = H' * A;
-AA = AA ./ [AA(3,:); AA(3,:); AA(3,:)];
-AA = int32(AA); % Truncate from float to int
 %% Get 4 points from user
+im_warp = imwarp(im, H_form);
 while (1)
     figure, imshow(im_warp);
     hold on;
     line = imrect;
     my_roi = wait(line);
-    my_roi=[302,314,212,116];
-    position = [my_roi(1),my_roi(1)+my_roi(3),my_roi(1)+my_roi(3),my_roi(1);
-                my_roi(2),my_roi(2),my_roi(2)+my_roi(4),my_roi(2)+my_roi(4)];
+    % The corner points of an user-defined rectnagle has the following
+    % sequence.
+    %
+    % (1)------------------(2)
+    %  |                    |
+    %  |                    |
+    %  |                    |
+    %  |                    |
+    % (4)------------------(3)
+    position = [my_roi(1),  my_roi(1)+my_roi(3),    my_roi(1)+my_roi(3),    my_roi(1);
+                my_roi(2),      my_roi(2),          my_roi(2)+my_roi(4),    my_roi(2)+my_roi(4)];
     hold off;
     close;
+    % Break if 4 points are defined
     if (size(position,2)==4)
         break;
     end
 end
+%% Look-up table for original-prespective pixel mapping(Scene)
+% Find the size of img
+sz = size(im);
+% Construct pixel location index for background image (The image scene)
+[rows,cols]= meshgrid(1:sz(1), 1:sz(2));
+imageScene_Index = [reshape(cols,1,[]);
+                    reshape(rows,1,[]);
+                    ones(1,length(rows(:)))]; 
+imageScene_pstIndex = H' * imageScene_Index;
+imageScene_pstIndex = imageScene_pstIndex ./ [imageScene_pstIndex(3,:); imageScene_pstIndex(3,:); imageScene_pstIndex(3,:)];
+imageScene_pstIndex = int32(imageScene_pstIndex); % Resolve truncating issue
+
 ptXp = position(1,:);
 ptYp = position(2,:);
-lsX = floor(ptXp);lsY = floor(ptYp);
-lsX = lsX + double(repmat(min(AA(1,:)) - 1,size(lsX,1),1)); 
-lsY = lsY + double(repmat(min(AA(2,:)) - 1,size(lsY,1),1));
-%% Apply inverse homography to the 4 points
+
+lsX = ptXp + double(repmat(min(imageScene_pstIndex(1,:)) - 1,1)); 
+lsY = ptYp + double(repmat(min(imageScene_pstIndex(2,:)) - 1,1));
+%% Construct 2 lines from 4 points, then apply inverse H to obtain the corresponding lines
 ls1p = [lsX(1); lsY(1); lsX(2); lsY(2)];
 ls2p = [lsX(3); lsY(3); lsX(4); lsY(4)];
 lv1p = twopts2L(ls1p);
@@ -58,9 +64,12 @@ lv2p = twopts2L(ls2p);
 pts=[[ls1p(1:2),ls1p(3:4),ls2p(1:2),ls2p(3:4)];[1,1,1,1]];
 ptsp=inv(H)'*pts; 
 ptsp=ptsp(1:2,:)./[ptsp(3,:);ptsp(3,:)]; % Normalise w dimension
-%% Extract the back-project points coordinate
-ls1p_back=[ptsp(:,1);ptsp(:,2)];ls1p_back = floor(ls1p_back);
-ls2p_back=[ptsp(:,3);ptsp(:,4)];ls2p_back = floor(ls2p_back);
+% Extract the back-project points coordinate
+ls1p_back=[ptsp(:,1);ptsp(:,2)];
+ls1p_back = floor(ls1p_back); % resolve truncate issue
+
+ls2p_back=[ptsp(:,3);ptsp(:,4)];
+ls2p_back = floor(ls2p_back); % resolve truncate issue
 
 im_rect = [ls1p_back(1),ls1p_back(3),ls2p_back(1),ls2p_back(3);
             ls1p_back(2),ls1p_back(4),ls2p_back(2),ls2p_back(4)];
@@ -68,8 +77,7 @@ T = fitgeotrans(im_obj_rect',im_rect','projective');
 im_obj_warp = imwarp(im_obj, T);
 T_H = T.T;
 
-%% Experiment
-% Look-up table for image object(Augmented object)...........<<<<<<<
+%% Look-up table for original-prespective pixel mapping(Scene)
 % Find the size of img
 sz = size(im_obj);
 % Original pixel index lookup table

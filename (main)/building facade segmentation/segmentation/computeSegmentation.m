@@ -38,6 +38,10 @@ poptype = getParameter('poptype');
 %% Read the input, detect lines, preprocess
 % [im,K,center] = cameraInputs(impath,scaleimageflag);
 im=imread(impath);
+if scaleimageflag == 1 && max([size(im,1),size(im,2)])>1000
+    imscale=1000/max([size(im,1),size(im,2)]);
+    im=imresize(im,imscale);
+end
 % K = [498.949848064801,0,0;0,498.949848064801,0;0,0,1];
 K = [4.771474878444084e+02,0,0;0,4.771474878444084e+02,0;0,0,1];
 % K = [791,0,0;0,791,0;0,0,1];

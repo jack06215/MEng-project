@@ -1,7 +1,7 @@
 %% Set up system environment
 addpath(genpath('.'));              % Adding all subfolders to path
 ccc;                                % Clear up everything
-impath = 'data\Garfield_Building_Detroit.jpg';       % Set the path of the image
+impath = 'data\result_0001.png';       % Set the path of the image
 talk = getParameter('talk');        % Flag for internediate output
 saveFig = getParameter('saveFig');  % Flag for saving figure
 if ~exist(impath,'file')            % check if the image file exists
@@ -12,7 +12,6 @@ warning off all;                    % Turn off warnings
 tic;
 [im,K,center,LS,LS_c,X,Ladj,hFig,L,inliers,numhyp,X3] = computeSegmentation(impath,talk);
 % [Ladj,rectangles,inds,numRectangles,quads_c,qseg] = getRectangles(Ladj,LS_c,L,X3,inliers,numhyp,K,center);
-
 % [im_new,hFig] = obtainFrontalView(im,K,X3,center,hFig,1);
 toc;
 %% Save figures screeshot
