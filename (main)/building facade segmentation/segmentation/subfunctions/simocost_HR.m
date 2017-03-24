@@ -16,9 +16,9 @@ ay = orthoX(2);
 az = x;
 
 % Construct the homography based on the rotation parameters
-R1 = makehgtform('xrotate',ax,'yrotate',ay); R1 = R1(1:3,1:3);
+% R1 = makehgtform('xrotate',ax,'yrotate',ay); R1 = R1(1:3,1:3);
 R2 = makehgtform('zrotate', az); R2 = R2(1:3,1:3);
-Hinv = K * R1' * R2' * inv(K);
+Hinv = K * R2' * inv(K);
 
 % Setup Vi and Vj
 Lp = Hinv'*L;

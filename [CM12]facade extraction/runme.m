@@ -1,6 +1,6 @@
 addpath(genpath('.'));
 ccc;
-img = imread('data/object0138.view01.png');
+img = imread('data/object0008.view03.png');
 img_gray = rgb2gray(img);
 % figure,hold on
 % imshow(img);
@@ -27,7 +27,7 @@ x = tiltRectification(ls_vertical,K);
 % Obtain the result warping image
 [imgp,T] = getPerspectiveImg(img,x,K);
 H = T.T;
-%figure,imshow(imgp);
+figure,imshow(imgp);
 [ls,ls_center,ls_label,~] = vp_lineCluster(img_gray,center,15);
 figure;
 imshow(img), hold on;

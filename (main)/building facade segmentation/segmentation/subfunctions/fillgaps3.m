@@ -19,12 +19,14 @@ function LS=fillgaps3(LS,athresh,dthresh)
         % compare it to all unchecked lines to find line candidates to merge
         for lindex2=1:length(mergelist)
 %             disp([lindex1,lindex2,size(LS,2)]);
-            if limitedangle(LS(:,lindex1),uncheckedLS(:,lindex2),athresh)
+            mergeflag = limitedangle(LS(:,lindex1),uncheckedLS(:,lindex2),athresh);
+            % disp(num2str(mergeflag));
+            if mergeflag
                 mergelist(lindex2)=1;
             end
         end
         if sum(mergelist)
-%             display(mergelist);
+            % display(mergelist);
             currLS=mergecloselinesegs([currls,uncheckedLS(:,mergelist>0)],athresh,dthresh);
 %             uncheckedLS(:,~mergelist)
 %             LS(:,lindex1:end)
@@ -52,10 +54,24 @@ function limitflag=limitedangle(ls1,ls2,athresh)    % degrees
 %            3,4, 3,2;...
 %            3,4, 4,1;...
 %            3,4, 4,2;];
+
+
+%            1,2, 1,3;...
+%            1,2, 1,4;...
+%            1,2, 2,3;...
+%            1,2, 2,4;...
+%            
+%            3,4, 3,1;...
+%            3,4, 3,2;...
+%            3,4, 4,1;...
+%            3,4, 4,2];
+
+
     limitflag=1;
     for index=1:size(combs,1)
         theta=lsangle([pts(:,combs(index,1));pts(:,combs(index,2))],...
             [pts(:,combs(index,3));pts(:,combs(index,4))]);
+        % disp([num2str(theta), ',  ', num2str((cosd(athresh))^2)]);
         if theta<(cosd(athresh))^2
             limitflag=0;
             break;

@@ -15,9 +15,13 @@ end
 
 
 % Method 2
-L = getLines(imgray,20);
+L = getLines(imgray,15);
 L = L(:,1:4)';
 L = [L(1,:); L(3,:); L(2,:); L(4,:)];
+
+% Method 3
+imgray = im2double(imgray);
+[~, ~, ~, L] = ml_lineSelection(imgray, L);
 
 
 % DEBUG OUTPUT - Gap filling
@@ -37,7 +41,7 @@ if talk
     hFig=[hFig az_fig];
     set(hFig(1,end),'Name','Original and Gap Filled Lines');
     imagesc(im), axis equal;
-    %showLS(L1);
+    showLS(L1);
     showLS(L,[0,1,0]);
     title('Original in green, Gap-filled in red');
     fprintf(1,'detected lines: %d, after gap-filling: %d\n',size(L,2),size(L1,2));
@@ -67,6 +71,6 @@ if talk
     set(hFig(1,end),'Name','Gap Filled and Extended Lines');
     imagesc(im), axis equal;
     showLS(L2);
-    %showLS(L1,[0,1,0]);
+    showLS(L1,[0,1,0]);
     title('Gap filled in green, Extended in red')
 end
