@@ -1,6 +1,6 @@
 %% Construct homography matrix
 planeID = 1;
-ax=X3(planeID*3-2);ay=X3(planeID*3-1);az=X3(planeID*3);
+ax=X(planeID*2-1);ay=X(planeID*2);az=X3(planeID*3);
 % ax=X(1);ay=X(2);az=0.6;
 % flag1 = ax >= 1 || ax <= -1;
 % flag2 = ay >= 1 || ay <= -1;
@@ -9,31 +9,31 @@ ax=X3(planeID*3-2);ay=X3(planeID*3-1);az=X3(planeID*3);
 
 
 %% Ortg 
-% R1=makehgtform('xrotate',ax,'yrotate',ay);
-% R3=makehgtform('zrotate',az);
-% % R1=makehgtform('xrotate',ax,'yrotate',ay,'zrotate',az); 
-% R1=R1(1:3,1:3);
-% R3=R3(1:3,1:3);
-% C_center = [1,0, -center(1);
-%             0,1, -center(2);
-%             0,0,1];
-% 
-%        
-% H1= K*((R3 * R1)/K)*C_center;
-%% Ortg 
-R1=makehgtform('xrotate',ax);
-R2=makehgtform('yrotate',ay);
+R1=makehgtform('xrotate',ax,'yrotate',ay);
 R3=makehgtform('zrotate',az);
 % R1=makehgtform('xrotate',ax,'yrotate',ay,'zrotate',az); 
 R1=R1(1:3,1:3);
-R2=R2(1:3,1:3);
 R3=R3(1:3,1:3);
 C_center = [1,0, -center(1);
             0,1, -center(2);
             0,0,1];
 
        
-H1= K*((R2 *R1* R3)/K)*C_center;
+H1= K*((R3 * R1)/K)*C_center;
+% %% Ortg 
+% R1=makehgtform('xrotate',ax, 'yrotate', ay);
+% R2=makehgtform('yrotate',ay);
+% R3=makehgtform('zrotate',az);
+% % R1=makehgtform('xrotate',ax,'yrotate',ay,'zrotate',az); 
+% R1=R1(1:3,1:3);
+% R2=R2(1:3,1:3);
+% R3=R3(1:3,1:3);
+% C_center = [1,0, -center(1);
+%             0,1, -center(2);
+%             0,0,1];
+% 
+%        
+% H1= K*((R1 * R3)/K)*C_center;
 
 %%
 s = norm(H1(:,2)) / norm(H1(:,1));

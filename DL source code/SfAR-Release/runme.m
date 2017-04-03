@@ -8,7 +8,7 @@ addpath(genpath('.'))
 % clear up everything
 ccc;
 %set the path of the image
-impath = 'data\Garfield_Building_Detroit.jpg';
+impath = 'data\920x920.jpg';
 
 talk = getParameter('talk');
 saveFig = getParameter('saveFig');

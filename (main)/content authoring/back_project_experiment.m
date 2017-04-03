@@ -59,11 +59,12 @@ lsY = ptYp + double(repmat(min(imageScene_pstIndex(2,:)) - 1,1));
 %% Construct 2 lines from 4 points, then apply inverse H to obtain the corresponding lines
 ls1p = [lsX(1); lsY(1); lsX(2); lsY(2)];
 ls2p = [lsX(3); lsY(3); lsX(4); lsY(4)];
-lv1p = twopts2L(ls1p);
-lv2p = twopts2L(ls2p);
+% lv1p = twopts2L(ls1p);
+% lv2p = twopts2L(ls2p);
 pts=[[ls1p(1:2),ls1p(3:4),ls2p(1:2),ls2p(3:4)];[1,1,1,1]];
 ptsp=inv(H)'*pts; 
 ptsp=ptsp(1:2,:)./[ptsp(3,:);ptsp(3,:)]; % Normalise w dimension
+
 % Extract the back-project points coordinate
 ls1p_back=[ptsp(:,1);ptsp(:,2)];
 ls1p_back = floor(ls1p_back); % resolve truncate issue

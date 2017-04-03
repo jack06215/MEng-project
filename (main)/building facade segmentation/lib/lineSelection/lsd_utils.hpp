@@ -14,15 +14,15 @@ bool isEqual(const cv::Vec4i& _l1, const cv::Vec4i& _l2)
 	if (fabs(product / (length1 * length2)) < cos(CV_PI / 90))
 		return false;
 
-	float mx1 = (l1[0] + l1[2]) * 0.5f;
-	float mx2 = (l2[0] + l2[2]) * 0.5f;
-
-	float my1 = (l1[1] + l1[3]) * 0.5f;
-	float my2 = (l2[1] + l2[3]) * 0.5f;
-	float dist = sqrtf((mx1 - mx2)*(mx1 - mx2) + (my1 - my2)*(my1 - my2));
-
-	if (dist > std::max(length1, length2) * 0.9f)
-		return false;
+// 	float mx1 = (l1[0] + l1[2]) * 0.5f;
+// 	float mx2 = (l2[0] + l2[2]) * 0.5f;
+// 
+// 	float my1 = (l1[1] + l1[3]) * 0.5f;
+// 	float my2 = (l2[1] + l2[3]) * 0.5f;
+// 	float dist = sqrtf((mx1 - mx2)*(mx1 - mx2) + (my1 - my2)*(my1 - my2));
+// 
+// 	if (dist > std::max(length1, length2) * 0.9f)
+// 		return false;
 
 	return true;
 }

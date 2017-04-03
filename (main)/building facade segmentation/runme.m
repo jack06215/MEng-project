@@ -1,6 +1,6 @@
 %% Set up system environment
 addpath(genpath('.'));              % Adding all subfolders to path
-% ccc;                                % Clear up everything
+ccc;                                % Clear up everything
 impath = 'data\Garfield_Building_Detroit.jpg';       % Set the path of the image
 talk = getParameter('talk');        % Flag for internediate output
 saveFig = getParameter('saveFig');  % Flag for saving figure

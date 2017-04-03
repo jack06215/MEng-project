@@ -1,13 +1,13 @@
 function [ x,y ] = nonConvexHull( rectangles )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-x=round(rectangles(1:2:end,1)*1000/1000;
-y=round(rectangles(2:2:end,1)*1000/1000;
+x=round(rectangles(1:2:end,1)*1000/1000);
+y=round(rectangles(2:2:end,1)*1000/1000);
 for i=2:size(rectangles,2)
 
-	x1=round(rectangles(1:2:end,i)*1000/1000;
-    y1=round(rectangles(2:2:end,i)*1000/1000;
-    [x,y]=polybool('+',x,y,x1,y1);
+	x1=round(rectangles(1:2:end,i)*1000/1000);
+    y1=round(rectangles(2:2:end,i)*1000/1000);
+    [x,y]=polybool(2,x,y,x1,y1);
 end
 
 %%removing holes

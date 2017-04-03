@@ -131,8 +131,8 @@ mexFunction(int nlhs, mxArray *plhs[],
 	bool isDone = false;
 	lsd_selected_idx.push_back(freq_count.at(0).second);
 	lsd_selected_idx.push_back(freq_count.at(1).second);
-    //lsd_selected_idx.push_back(freq_count.at(2).second);
-    //lsd_selected_idx.push_back(freq_count.at(3).second);
+//     lsd_selected_idx.push_back(freq_count.at(2).second);
+//     lsd_selected_idx.push_back(freq_count.at(3).second);
     
     	for (int i = 0; i < lsd_selected_idx.size(); i++)
 	{

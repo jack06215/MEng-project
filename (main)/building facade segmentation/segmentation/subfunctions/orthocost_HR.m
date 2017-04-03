@@ -15,9 +15,10 @@ if prod(size(x))==9
 else
     ax=x(1);ay=x(2);
     % R=makehgtform('xrotate',ax,'yrotate',ay); R=R(1:3,1:3);
-    R1=makehgtform('xrotate',ax);R1=R1(1:3,1:3);
-    R2=makehgtform('yrotate',ay); R2=R2(1:3,1:3);
-    R=R2*R1;
+    R1=makehgtform('xrotate',ax, 'yrotate', ay);R1=R1(1:3,1:3);
+    %R2=makehgtform('yrotate',ay); R2=R2(1:3,1:3);
+   % R=R2*R1;
+    R=R1;
     Hinv=K*R'*inv(K);
 end
 
