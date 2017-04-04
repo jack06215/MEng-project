@@ -1,1 +1,1 @@
-[CM12] Y. Cao and J. McDonald. Improved feature extraction and matching in urban environments based on 3d viewpoint normalization.
+[CM12] Y. Cao and J. McDonald. Improved feature extraction and matching in urban environments based on 3d viewpoint normalization.r
